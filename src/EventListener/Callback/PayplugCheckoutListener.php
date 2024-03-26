@@ -14,7 +14,6 @@ use Payplug\Bundle\PaymentBundle\Service\RefundManager;
 use Payplug\Resource\Payment;
 use Payplug\Resource\Refund;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class PayplugCheckoutListener
 {
@@ -29,11 +28,6 @@ class PayplugCheckoutListener
     protected $refundManager;
 
     /**
-     * @var Session
-     */
-    protected $session;
-
-    /**
      * @var Logger
      */
     protected $logger;
@@ -41,12 +35,10 @@ class PayplugCheckoutListener
     public function __construct(
         PaymentMethodProviderInterface $paymentMethodProvider,
         RefundManager $refundManager,
-        Session $session,
         Logger $logger
     ) {
         $this->paymentMethodProvider = $paymentMethodProvider;
         $this->refundManager = $refundManager;
-        $this->session = $session;
         $this->logger = $logger;
     }
 
@@ -238,7 +230,6 @@ class PayplugCheckoutListener
 
         if (\in_array($payplugResponse->failure->code, PayplugFailureConstant::getAll(), true)) {
             $this->logger->debug('Warning message sent to customer with code: ' . $payplugResponse->failure->code);
-            $this->session->getFlashBag()->add('warning', 'payplug.on_return.' . $payplugResponse->failure->code . '.label');
         } else {
             $this->logger->debug('Unknown failure code from PayPlug API: ' . $payplugResponse->failure->code);
         }

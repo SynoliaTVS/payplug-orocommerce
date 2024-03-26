@@ -13,11 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentTransactionController extends AbstractController
 {
-    /**
-     * @Route("/info/{paymentTransactionId}/", name="payplug_payment_transaction_info")
-     * @ParamConverter("paymentTransaction", class="OroPaymentBundle:PaymentTransaction", options={"id" = "paymentTransactionId"})
-     * @Template
-     */
+    #[Route(path: '/info/{paymentTransactionId}/', name: 'payplug_payment_transaction_info')]
+    #[ParamConverter('paymentTransaction', class: 'Oro\Bundle\PaymentBundle\Entity\PaymentTransaction', options: ['id' => 'paymentTransactionId'])]
+    #[Template]
     public function infoAction(PaymentTransaction $paymentTransaction, PayplugMethodProvider $payplugMethodProvider)
     {
         $paymentMethod = $payplugMethodProvider->getPaymentMethod(

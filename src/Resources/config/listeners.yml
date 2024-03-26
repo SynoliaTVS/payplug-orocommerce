@@ -9,5 +9,4 @@ services:
         arguments:
             - '@payplug.payment_method_provider.payplug'
             - '@payplug.service.refund_manager'
-            - '@session'
             - '@payplug.service.logger'
